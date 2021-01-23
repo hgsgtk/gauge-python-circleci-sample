@@ -21,9 +21,25 @@ def assert_default_vowels(given_vowels):
     Messages.write_message("Given vowels are {0}".format(given_vowels))
     assert given_vowels == "".join(vowels)
 
+@step("Contexts step を実行する")
+def contexts_step_1():
+    assert True
 
+@step("Step を実行する")
+def step_1():
+    assert True
+
+@step("パラメータ <param> を渡して、Step を実行する")
+def step_2(param):
+    assert True
 @step("Almost all words have vowels <table>")
 def assert_words_vowel_count(table):
+    actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
+    expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
+    assert expected == actual
+
+@step("Table driven scenario テストを実行する <table>")
+def table_driven_1(table):
     actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
     expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
     assert expected == actual
