@@ -1,0 +1,50 @@
+version: 2.1
+
+jobs:
+  run-simple-test:  
+    docker:
+      - image: cimg/python:3.9.1
+    environment:
+      CIRCLE_TEST_REPORTS: /tmp/circleci-test-results
+    steps:
+      - checkout
+      - run:
+          name: Install gauge
+          # https://docs.gauge.org/getting_started/installing-gauge.html?os=linux&language=javascript&ide=vscode#id5
+          command: curl -SsL https://downloads.gauge.org/stable | sh
+      - run:
+          name: Install gauge plugins
+          working_directory: simple
+          command: gauge install
+      - run:
+          name: Install python dependencies in pip
+          working_directory: simple
+          command: pip install -r requirements.txt
+      - run:
+          name: Run tests
+          working_directory: simple
+          command: gauge run specs
+      - run:
+          name: Publish test report
+          working_directory: simple
+          command: |
+            mkdir -p $CIRCLE_TEST_REPORTS/junit/
+            cp ./reports/xml-report/result.xml $CIRCLE_TEST_REPORTS/junit/
+      - store_test_results:
+          path: /tmp/circleci-test-results
+      
+
+workflows:
+  run-all-tests: 
+    jobs:
+      - run-simple-test
+
+  daily-test:
+    triggers:
+      - schedule:
+          cron: "0 0 * * *"
+          filters:
+            branches:
+              only: main
+    jobs:
+      - run-simple-test
