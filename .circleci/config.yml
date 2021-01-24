@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Run tests
           working_directory: simple
-          command: gauge run specs
+          command: gauge run --tags="!draft" --env="ci" specs
       - run:
           name: Publish test report
           working_directory: simple

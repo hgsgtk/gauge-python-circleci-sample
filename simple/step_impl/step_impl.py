@@ -32,17 +32,22 @@ def exec_step():
 @step("パラメータ <param> を渡して、Step を実行する")
 def exec_step_with_param(param):
     assert param == 'param1'
+
+@step("Table driven scenario テストを実行する <table>")
+def table_driven_1(table):
+    actual = [str(number_of_vowels(word)) 
+        for word in table.get_column_values_with_name("Word")]
+    expected = [str(count) for count 
+        in table.get_column_values_with_name("Vowel Count")]
+    assert expected == actual
+
 @step("Almost all words have vowels <table>")
 def assert_words_vowel_count(table):
     actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
     expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
     assert expected == actual
 
-@step("Table driven scenario テストを実行する <table>")
-def table_driven_1(table):
-    actual = [str(number_of_vowels(word)) for word in table.get_column_values_with_name("Word")]
-    expected = [str(count) for count in table.get_column_values_with_name("Vowel Count")]
-    assert expected == actual
+
 
 @step("TearDown を実行")
 def tear_down_1():
