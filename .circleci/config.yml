@@ -10,7 +10,6 @@ jobs:
       - checkout
       - run:
           name: Install gauge
-          # https://docs.gauge.org/getting_started/installing-gauge.html?os=linux&language=javascript&ide=vscode#id5
           command: curl -SsL https://downloads.gauge.org/stable | sh
       - run:
           name: Install gauge plugins
