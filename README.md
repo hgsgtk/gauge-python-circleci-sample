@@ -1,15 +1,16 @@
 # gauge-python-circleci-sample
 Gauge Python sample work on CircleCI
 
-## Browser
+## Getting Started
 
-- Install chromedriver (read https://chromedriver.chromium.org/getting-started)
+- Install gauge
 
+https://docs.gauge.org/getting_started/installing-gauge.html
 
-- Install requirements
+- Run specs
 
 ```
-cd ./browser
+cd ./simple
 pip3 install -r requirements.txt
 gauge run specs
 ```
